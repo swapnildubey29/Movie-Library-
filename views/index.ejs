@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Movie Library</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <h1>Movie Library</h1>
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title login">Login Form</div>
+      <div class="title signup">Signup Form</div>
+    </div>
+    <div class="form-container">
+      <div class="slide-controls">
+        <input type="radio" name="slide" id="login" checked />
+        <input type="radio" name="slide" id="signup" />
+        <label for="login" class="slide login">Login</label>
+        <label for="signup" class="slide signup">Signup</label>
+        <div class="slider-tab"></div>
+      </div>
+      <div class="form-inner">
+        <form id="login-form" class="login">
+          <div class="field">
+            <input type="text" id="login-email" placeholder="Email Address" required />
+          </div>
+          <div class="field">
+            <input type="password" id="login-password" placeholder="Password" required />
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Login" />
+          </div>
+          <div class="signup-link">
+            Does not have an account ? <a href="">Signup now</a>
+          </div>
+        </form>
+        <form id="signup-form" class="signup">
+          <div class="field">
+            <input type="text" id="signup-username" placeholder="Username" required />
+          </div>
+          <div class="field">
+            <input type="text" id="signup-email" placeholder="Email Address" required />
+          </div>
+          <div class="field">
+            <input type="password" id="signup-password" placeholder="Password" required />
+          </div>
+          <div class="field">
+            <input type="password" id="signup-confirm-password" placeholder="Confirm password" required />
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Signup" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    const loginText = document.querySelector(".title-text .login");
+    const loginForm = document.querySelector("form.login");
+    const loginBtn = document.querySelector("label.login");
+    const signupBtn = document.querySelector("label.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+
+    signupBtn.onclick = () => {
+      loginForm.style.marginLeft = "-50%";
+      loginText.style.marginLeft = "-50%";
+    };
+    loginBtn.onclick = () => {
+      loginForm.style.marginLeft = "0%";
+      loginText.style.marginLeft = "0%";
+    };
+    signupLink.onclick = () => {
+      signupBtn.click();
+      return false;
+    };
+
+    //Signup 
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("signup-username").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const confirmPassword = document.getElementById("signup-confirm-password").value;
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  try {
+    const response = await fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert("Successfully created the user.");
+      window.location.href = "/dashboard";
+    } else {
+      alert("Signup failed: " + JSON.stringify(data));
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Signup failed: " + error.message);
+  }
+});
+
+   //Login 
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        const response = await fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          alert("Login successful");
+          window.location.href = "/dashboard";
+        } else {
+          alert("Login failed: " + data.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+
+  </script>
+</body>
+
+</html>
