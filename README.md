@@ -25,13 +25,13 @@ This movie library web application is designed to provide users with a seamless 
 To run this application locally, follow these steps:
 
 1. Set up your development environment with Node.js and MongoDB installed.
-2. Clone the repository from GitHub:
+2. Clone the repository from GitHub: https://github.com/swapnildubey29/Movie-Library-/tree/master
 
 3. Navigate to the project directory.
-4. Install the dependencies using npm:
+4. Install the dependencies using npm: npm i
 
 5. Configure environment variables for MongoDB connection and API keys.
-6. Run the application locally using:
+6. Run the application locally using: npm run dev
 
 7. Access the application in your web browser at `http://localhost:8000`.
 
