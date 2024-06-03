@@ -158,6 +158,11 @@ router.delete("/lists/:listId", authenticateUser, async (req, res) => {
   }
 });
 
+// Logout
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ success: true, message: 'Logout successful' });
+});
 
 
 module.exports = router;

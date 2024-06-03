@@ -22,6 +22,7 @@
           placeholder="Search for movies..."
         />
         <button id="createListBtn">Create List</button>
+        <button id="logoutBtn">Logout</button>
       </header>
       <div id="listsContainer" class="lists-container">
         <h2>Your Lists</h2>
@@ -228,6 +229,7 @@
       const searchInput = document.getElementById("searchInput");
       const searchResults = document.getElementById("searchResults");
       const userLists = document.getElementById("userLists"); 
+      const logoutBtn = document.getElementById("logoutBtn");
 
       // Event listener for creating a new list
       createListBtn.addEventListener(
@@ -311,6 +313,23 @@
           if (query) {
             searchMovies(query);
           }
+        }
+      });
+
+      // Logout function
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          const response = await fetch("/logout", {
+            method: "POST",
+          });
+
+          if (response.ok) {
+            window.location.href = "/";
+          } else {
+            console.error("Error during logout:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error during logout:", error);
         }
       });
 
